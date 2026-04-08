@@ -1,0 +1,14 @@
+{% for interface in interfaces %}
+interface {{ interface.name }}
+  description {{ interface.description }}
+  ip address {{ interface.ip }}
+  no shutdown
+!
+{% endfor %}
+router bgp {{ bgp.asn }}
+{% for neighbour in bgp.neighbours  %}
+ neighbor {{ neighbour.ip }} remote-as {{ neighbour.asn }}
+{% endfor %}
+!
+end
+

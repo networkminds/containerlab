@@ -1,0 +1,41 @@
+---
+name: lab
+prefix: demo
+
+topology:
+  nodes:
+    r-1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      mgmt-ipv4: 172.20.20.11
+
+    r-2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      mgmt-ipv4: 172.20.20.22
+
+    r-3:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      mgmt-ipv4: 172.20.20.33
+
+    r-4:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      mgmt-ipv4: 172.20.20.44
+
+    r-5:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      mgmt-ipv4: 172.20.20.55
+
+    r-6:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.01
+      mgmt-ipv4: 172.20.20.66
+  links:
+    - endpoints: ["r-1:Ethernet0/1","r-2:Ethernet0/1"]
+    - endpoints: ["r-1:Ethernet1/3", "r-2:Ethernet1/0"]
+    - endpoints: ["r-1:Ethernet0/2", "r-3:Ethernet0/2"]
+    - endpoints: ["r-1:Ethernet0/3", "r-2:Ethernet0/3"]
+    - endpoints: ["r-1:Ethernet1/1", "r-6:Ethernet1/1"]

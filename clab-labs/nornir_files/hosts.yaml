@@ -1,0 +1,31 @@
+---
+r-1:
+  hostname: 172.20.20.11
+  groups:
+    - cisco_iosxe
+  data:
+    interfaces:
+     - name: "ethernet0/1"
+       description: "### -- Link was changed -- ###"
+       ip: 12.12.12.1 255.255.255.0
+        
+    bgp:
+      asn: 100
+      neighbours:
+       - ip: 12.12.12.2
+         asn: 300
+
+r-2:
+  hostname: 172.20.20.22
+  groups:
+    - cisco_iosxe
+  data:
+    interfaces:
+     - name: "ethernet0/1"
+       description: "### -- Link to Router_1 -- ###"
+       ip: 12.12.12.2 255.255.255.0
+    bgp:
+      asn: 300
+      neighbours:
+       - ip: 12.12.12.1
+         asn: 100

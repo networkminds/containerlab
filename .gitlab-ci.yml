@@ -1,0 +1,54 @@
+---
+stages:
+  - test
+  - deploy
+  - configure
+
+run_tests:
+  stage: test
+  tags:
+    - clab
+  script:
+    - echo "Running Tests"
+      #- yamllint -c .yamllint.yaml .
+      #- yamllint .
+  variables:
+    GIT_CLEAN_FLAGS: none
+
+deploy_lab:
+  stage: deploy
+  tags:
+    - clab
+  script:
+    - echo "Redeploying lab using containerlab "
+    - cd clab-labs/bgp-lab
+    - ls
+    - clab destroy -t bgp.yml --cleanup
+    - clab deploy -t bgp.yml
+    - clab tools sshx attach -l lab
+  after_script:
+    - sleep 30
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - clab-labs/bgp-lab/bgp.yml
+  variables:
+    GIT_CLEAN_FLAGS: none
+
+run_nornir_script:
+  stage: configure
+  tags:
+    - clab
+  script:
+    - echo "Running Nornir script"
+    - ls
+    - source nornir_files/.venv/bin/activate
+    - cd clab-labs/nornir_files
+    - python3 render_config.py
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - clab-labs/nornir_files/**
+        - clab-labs/bgp-lab/bgp.yaml
+  variables:
+    GIT_CLEAN_FLAGS: none
